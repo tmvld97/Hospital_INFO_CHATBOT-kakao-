@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import preprocessing
 from sklearn.model_selection import train_test_split
@@ -20,14 +19,14 @@ def read_file(file_name):   # 1.2.3 부터 라인별 /t 기준으로 튜플로 �
             else:
                 this_sent.append(tuple(l.split())) # 공백단위로 리스트로 만듬.
     return sents
-# # print(read_file('./ner_train.txt'))
+# # print(read_file('./ner_1.txt'))
 #
 #
 p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
                userdic='../../utils/user_dic.txt')
 
 # 학습용 말뭉치 데이터를 불러옴
-corpus = read_file('total_ner.txt')
+corpus = read_file('total_ner2.txt')
 # corpus = read_file('../../Study/intent2_ner.txt')
 # corpus_2 = read_file('../../Study/intent2_ner.txt')
 # corpus = []
@@ -68,8 +67,9 @@ print("0번 째 샘플 단어 시퀀스 : \n", sentences[0])
 print("0번 째 샘플 bio 태그 : \n", tags[0])
 print("샘플 단어 시퀀스 최대 길이 :", max(len(l) for l in sentences))
 print("샘플 단어 시퀀스 평균 길이 :", (sum(map(len, sentences)) / len(sentences)))
+
 #
-# # 토크나이저 정의
+# 토크나이저 정의
 tag_tokenizer = preprocessing.text.Tokenizer(lower=False)  # 태그 정보는 lower=False 소문자로 변환하지 않는다.
 tag_tokenizer.fit_on_texts(tags) # list형태로
 
@@ -88,7 +88,7 @@ index_to_ner = tag_tokenizer.index_word  # 시퀀스 인덱스를 NER로 변환 
 index_to_ner[0] = 'PAD'
 print(index_to_ner) # 1: 'O', B_DYT : 3 ...
 # 시퀀스 패딩 처리
-max_len = 11
+max_len = 9
 x_train = preprocessing.sequence.pad_sequences(x_train, padding='post', maxlen=max_len)
 y_train = preprocessing.sequence.pad_sequences(y_train, padding='post', maxlen=max_len)
 

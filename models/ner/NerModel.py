@@ -28,7 +28,7 @@ class NerModel:
         sequences = [self.p.get_wordidx_sequence(keywords)]
 
         # 패딩처리
-        max_len = 11
+        max_len = 9
         padded_seqs = preprocessing.sequence.pad_sequences(sequences, padding="post", value=0, maxlen=max_len)
 
         predict = self.model.predict(np.array([padded_seqs[0]]))
@@ -56,7 +56,7 @@ class NerModel:
         sequences = [self.p.get_wordidx_sequence(keywords)]
 
         # 패딩처리
-        max_len = 11
+        max_len = 9
         padded_seqs = preprocessing.sequence.pad_sequences(sequences, padding="post", value=0, maxlen=max_len)
 
         predict = self.model.predict(np.array([padded_seqs[0]]))
