@@ -37,4 +37,4 @@ for tag in jsonObj :
                 CITY.append(tag['SIGUN_NM'])
 for tag2 in jsonObj2 :
                 CITY.append(tag2['SIGUN_NM'])
-city = remove_redundancy(CITY)
+CITY = remove_redundancy(CITY)

@@ -60,27 +60,18 @@ jsonString2 = json.dumps(dict2['GgHosptlM']['row'], ensure_ascii=False)
 jsonObj = json.loads(jsonString)
 jsonObj2 = json.loads(jsonString2)
 
-hospital = []; hospital_1 = []
+hospital = []; hospital_1 = [];city = []
 u_d = open('../utils/user_dic.txt', 'a', encoding= 'utf-8')
+for tag in jsonObj:
+    city.append(tag['SIGUN_NM'])
+
 for tag in jsonObj2:
-    if tag['BIZPLC_NM'][:5] == '의료법인 ' :
-        hospital.append(tag['BIZPLC_NM'][5:])
-    elif tag['BIZPLC_NM'][:4] == '의료법인' :
-        hospital.append(tag['BIZPLC_NM'][4:])
+    city.append(tag['SIGUN_NM'])
 
-for item in hospital :
-    if item[2:7] == '의료재단 ' :
-            hospital_1.append(item[7:])
-    elif item[2:6] == '의료재단' :
-            hospital_1.append(item[6:])
-    else :
-            hospital_1.append(item)
+city = remove_redundancy(city)
 
-for item in hospital_1 :
-    if '의료재단' not in item :
-        u_d.write(item + '\t' + 'NNG' + '\n')
-    else :
-        print(item)
+
+
 # for item2 in hospital_1 :
 #     u_d.write(item2 + '\t' + 'NNG' + '\n')
 
