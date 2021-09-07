@@ -120,13 +120,12 @@ code|city
 
 # 패치노트
 1. 같은이름의 병원이름
-2. FindAnswer 공부
+2. FindAnswer 구현
 3. 병원검색 시 운영중 / 폐쇄 확인
 4. 버튼식 구현가능한지
 5. 동시실행 가능한지(월~금가능)
 6. Type까지 한번 학습해볼것.
-7. 짜임새 생각 어떤식으로 구동시킬지 (DB연동)
-8. table 만들고, 데이터 insert
+
 
 ~~08.28 - 시나리오, 틀 작업.~~  
 ~~08.28 - max_seq_len = 12 설정~~  
@@ -139,3 +138,5 @@ code|city
 ~~09.01 db 설계 작동~~
 ~~09.04 db 작동법, 테이블 설계, insert data(1)~~
 ~~09.05 Hospital, city, subject insert data~~
+~~09.06 data insert~~
+~~09.07 DB dataa insert complete~~

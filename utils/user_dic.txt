@@ -1807,3 +1807,6 @@ None	NNG
 카이저병원	NNG
 화성현대요양병원	NNG
 윌스기념병원	NNG
+효산병원	NNG
+S서울병원	NNG
+분당병원	NNG
