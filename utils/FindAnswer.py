@@ -1,3 +1,4 @@
+
 # 답변 검색 모듈
 class FindAnswer:
     def __init__(self, db): # Database 인스턴스 객체를 인자로 받음
@@ -17,12 +18,6 @@ class FindAnswer:
                 where += "ner = '{0},{1}'".format(ner_tags[0],ner_tags[1])
             sql = sql + where
             print(sql)
-            # if (len(ner_tags) > 0):
-            #     where += 'and ('
-            #     for ne in ner_tags:
-            #         where += " ner like '%{}%' and".format(ne)
-            #     where = where[:-4] + ')'
-            # sql = sql + where
 
         # 동일한 답변이 2개 이상인 경우, 랜덤으로 선택
         sql = sql + " order by rand() limit 1"

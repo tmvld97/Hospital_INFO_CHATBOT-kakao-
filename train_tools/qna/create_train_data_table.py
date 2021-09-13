@@ -19,10 +19,71 @@ try :
         charset = 'utf8'
     )
     print("DB Succes")
-    # hos_dict = {}; loc_dict = {};count = 0
-    # for index,tag in enumerate(jsonObj2) :
+    hos_dict = {}; loc_dict = {}
 
+    for index,tag in enumerate(jsonObj2) :
+        with db.cursor() as cursor :
+            city = tag['SIGUN_NM']
+            add = str(tag['REFINE_LOTNO_ADDR']).split(' ')
+            if tag['REFINE_LOTNO_ADDR'] == None :
+                add = str(tag['REFINE_ROADNM_ADDR']).split(' ')
 
+            if len(add) == 2 :
+                loc_dict['s_c'] = add[0]
+                loc_dict['rest'] = add[-1]
+                sql = """
+                            insert Location(병원_번호, city_name, s_c, rest) values(%d, "%s", "%s", "%s")
+                          """%(index+1001, city, loc_dict['s_c'], loc_dict['rest'])
+                cursor.execute(sql)
+
+            elif len(add) == 3 :
+                if add[1] == tag['SIGUN_NM'] :
+                    loc_dict['s_c'] = add[-1]
+                    sql = """
+                                insert Location(병원_번호, city_name, s_c) values(%d, "%s", "%s")
+                              """%(index+1001, city, loc_dict['s_c'])
+                    cursor.execute(sql)
+                else :
+                    if add[0] != '경기도' :
+                        loc_dict['s_c'] = add[0]
+                        loc_dict['rest'] = add[1] + ' ' + add[-1]
+                        sql = """
+                                  insert Location(병원_번호, city_name, s_c, rest) values(%d, "%s", "%s", "%s")
+                                  """%(index+1001, city, loc_dict['s_c'], loc_dict['rest'])
+                        cursor.execute(sql)
+            elif len(add) > 3 :
+                if add[0] != '경기도' :
+                    loc_dict['s_c'] = add[1]
+                    loc_dict['rest'] = add[2] + ' ' + add[3] + ' ' + add[4]
+                    sql = """
+                              insert Location(병원_번호, city_name, s_c, rest) values(%d, "%s", "%s", "%s")
+                              """%(index+1001, city, loc_dict['s_c'], loc_dict['rest'])
+                    cursor.execute(sql)
+                else :
+                    if add[1] != tag['SIGUN_NM'] :
+                        loc_dict['s_c'] = add[1][3:]
+                        rest = add[2:]
+                        rest_add = ''
+                        for r in rest :
+                            rest_add += r + ' '
+                        loc_dict['rest'] = rest_add
+                        sql = """
+                                  insert Location(병원_번호, city_name, s_c, rest) values(%d, "%s", "%s", "%s")
+                                  """%(index+1001, city, loc_dict['s_c'], loc_dict['rest'])
+                        cursor.execute(sql)
+                    else :
+
+                        loc_dict['s_c'] = add[2]
+                        rest = add[3:]
+                        rest_add = ''
+                        for r in rest :
+                            rest_add += r + ' '
+                        loc_dict['rest'] = rest_add
+                        sql = """
+                                  insert Location(병원_번호, city_name, s_c, rest) values(%d, "%s", "%s", "%s")
+                                  """%(index+1001, city, loc_dict['s_c'], loc_dict['rest'])
+                        cursor.execute(sql)
+    db.commit()
 
 except Exception as e:
     print(e)

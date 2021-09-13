@@ -4,15 +4,16 @@ from models.ner.NerModel import NerModel
 p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
                userdic='../utils/user_dic.txt')
 
-ner = NerModel(model_name='../models/ner/ner_train.h5', proprocess=p)
+ner = NerModel(model_name='../models/ner/2_ner_train.h5', proprocess=p)
 query = []
-query.append('고양시 덕양구 성사동 벙원 추천해줘')
-# query.append('김포시 장기동 산부인과 알려주세요')
-# query.append('김포시 장기동 치과 알려줘')
+
+query.append('고려병원 정보 알려줘')
 # query.append('오산시 치과 목록')
-# query.append('오산시 오산동 치과 알려주세요')
+# query.append('오산시 오산한국병원 진료과목')
 # query.append('오산시 오산동 산부인과 알려줘')
 # query.append('오산시 오산동 신경과 알려주삼')
+# query.append('김포시 장기동 요양병원 리스트')
+# query.append('김포시 장기동 병원리스트')
 # query.append('하이!')
 # query.append('안녕하세용')
 # query.append('방가방가')
