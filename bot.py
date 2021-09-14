@@ -9,6 +9,7 @@ from models.intent.IntentModel import IntentModel
 from models.ner.NerModel import NerModel
 from utils.FindAnswer import FindAnswer
 
+
 # 전처리 객체 생성
 p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
                userdic='utils/user_dic.txt')
@@ -17,7 +18,7 @@ p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
 intent = IntentModel(model_name='models/intent/intent_model.h5', proprocess=p)
 
 # 개체명 인식 모델
-ner = NerModel(model_name='models/ner/ner_model.h5', proprocess=p)
+ner = NerModel(model_name='models/ner/2_ner_model.h5', proprocess=p)
 
 
 def to_client(conn, addr, params):
@@ -36,6 +37,7 @@ def to_client(conn, addr, params):
             print('클라이언트 연결 끊어짐')
             exit(0)
 
+
         # json 데이터로 변환
         recv_json_data = json.loads(read.decode())
         print("데이터 수신 : ", recv_json_data)
@@ -49,20 +51,21 @@ def to_client(conn, addr, params):
         ner_predicts = ner.predict(query)
         ner_tags = ner.predict_tags(query)
 
+
         # 답변 검색
         try:
             f = FindAnswer(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
-            answer = f.tag_to_word(ner_predicts, answer_text)
+            answer = f.tag_to_word(intent_name,ner_predicts, answer_text)
 
         except:
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
             answer_image = None
 
         send_json_data_str = {
-            "Query": query,
+            "Query" : query,
             "Answer": answer,
-            "AnswerImageUrl": answer_image,
+            "AnswerImageUrl" : answer_image,
             "Intent": intent_name,
             "NER": str(ner_predicts)
         }
@@ -73,7 +76,7 @@ def to_client(conn, addr, params):
         print(ex)
 
     finally:
-        if db is not None:  # db 연결 끊기
+        if db is not None: # db 연결 끊기
             db.close()
         conn.close()
 
@@ -82,7 +85,7 @@ if __name__ == '__main__':
 
     # 질문/답변 학습 디비 연결 객체 생성
     db = Database(
-        host=DB_HOST, user=DB_USER, password=DB_PW, db_name=DB_NAME, db_port=DB_PORT
+        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, db_name=DB_NAME, db_port= DB_PORT
     )
     print("DB 접속")
 

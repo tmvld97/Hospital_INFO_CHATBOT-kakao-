@@ -123,10 +123,7 @@ code|city
 2. FindAnswer 구현
 3. 병원검색 시 운영중 / 폐쇄 확인
 4. 버튼식 구현가능한지
-5. 동시실행 가능한지(월~금가능)
-6. Type까지 한번 학습해볼것.
-7. intent 도우말 보여주세요 도움말 알려줘 도움말 알려주세요
-8. city + hospital 정보 ~ 재 학습.ner)
+5. FindAnswer, 다른의도들 다되게 수정필요.
 
 ~~08.28 - 시나리오, 틀 작업.~~  
 ~~08.28 - max_seq_len = 12 설정~~  
@@ -142,3 +139,4 @@ code|city
 ~~09.06 data insert~~
 ~~09.07 DB dataa insert complete~~
 ~~09.13 DB, 엔진 연동~~
+~~09.15 구름, db, 카카오 연동 확인~~

@@ -31,7 +31,6 @@ def get_answer_from_engine(bottype, query):
 
     # 챗봇 엔진 서버 연결 소켓 닫기
     mySocket.close()
-
     return ret_data
 
 

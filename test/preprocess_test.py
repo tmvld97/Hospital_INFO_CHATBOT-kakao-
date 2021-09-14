@@ -1,5 +1,5 @@
 from utils.Preprocess import Preprocess
-f = open('../train_tools/train_data/total_train.txt', 'r',encoding= 'utf-8')
+
 
 sent = "해암요양병원 연락방법 알려주세요"
 

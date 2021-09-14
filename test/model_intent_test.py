@@ -4,10 +4,10 @@ from models.intent.IntentModel import IntentModel
 p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
                userdic='../utils/user_dic.txt')
 
-intent = IntentModel(model_name='../models/intent/2_intent_model.h5', proprocess=p)
+intent = IntentModel(model_name='../models/intent/intent_model.h5', proprocess=p)
 query = []
-query.append('김포시 산부인과 알려줘')
-query.append('도움말 보여주세요!')
+query.append('')
+# query.append('도움말 보여주세요!')
 # query.append('방가방가')
 # query.append('고려병원 진료과목')
 # query.append('고려병원 진료과목 알려줘!')
