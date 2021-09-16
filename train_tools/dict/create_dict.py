@@ -9,7 +9,7 @@ def read_corpus_data(filename):
     return data
 
 # 말뭉치 데이터 가져오기
-corpus_data = read_corpus_data('../train_data/total_train.txt')
+corpus_data = read_corpus_data('../train_data/add_total_train.txt')
 
 
 p = Preprocess(userdic='../../utils/user_dic.txt')

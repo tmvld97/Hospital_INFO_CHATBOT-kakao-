@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Input, Embedding, Dense, Dropout, Conv1D, Gl
 
 
 # 데이터 읽어오기
-train_file = "total_train.csv"
+train_file = "new_train.csv"
 data = pd.read_csv(train_file, delimiter=',')
 queries = data['query'].tolist()
 intents = data['intent'].tolist()
@@ -19,15 +19,12 @@ p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
 #
 # 단어 시퀀스 생성
 sequences = []
+length = []
 for sentence in queries:
     pos = p.pos(sentence)
     keywords = p.get_keywords(pos, without_tag=True)
     seq = p.get_wordidx_sequence(keywords)
     sequences.append(seq)
-
-
-
-
 
 # 단어 인덱스 시퀀스 벡터 ○2
 # 단어 시퀀스 벡터 크기
@@ -54,7 +51,7 @@ test_ds = ds.skip(train_size + val_size).take(test_size).batch(20)
 # 하이퍼 파라미터 설정
 dropout_prob = 0.5
 EMB_SIZE = 128
-EPOCH = 15
+EPOCH = 10
 VOCAB_SIZE = len(p.word_index) + 1 #전체 단어 개수
 
 
@@ -90,8 +87,8 @@ concat = concatenate([pool1, pool2, pool3])
 
 hidden = Dense(128, activation=tf.nn.relu)(concat)
 dropout_hidden = Dropout(rate=dropout_prob)(hidden)
-logits = Dense(5, name='logits')(dropout_hidden)
-predictions = Dense(5, activation=tf.nn.softmax)(logits)
+logits = Dense(4, name='logits')(dropout_hidden)
+predictions = Dense(4, activation=tf.nn.softmax)(logits)
 
 
 # 모델 생성  ○5
@@ -110,6 +107,6 @@ loss, accuracy = model.evaluate(test_ds, verbose=1)
 print('Accuracy: %f' % (accuracy * 100))
 print('loss: %f' % (loss))
 #
-#
+
 # # 모델 저장  ○8
 model.save('intent_model.h5')

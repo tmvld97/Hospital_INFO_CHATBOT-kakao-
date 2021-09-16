@@ -26,7 +26,7 @@ p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
                userdic='../../utils/user_dic.txt')
 
 # 학습용 말뭉치 데이터를 불러옴
-corpus = read_file('total_ner2.txt')
+corpus = read_file('total_ner3.txt')
 # corpus = read_file('../../Study/intent2_ner.txt')
 # corpus_2 = read_file('../../Study/intent2_ner.txt')
 # corpus = []
@@ -119,7 +119,7 @@ model.compile(loss='categorical_crossentropy', optimizer=Adam(0.01), metrics=['a
 model.fit(x_train, y_train, batch_size=128, epochs=10)
 
 print("평가 결과 : ", model.evaluate(x_test, y_test)[1])
-model.save('ner_train.h5')
+model.save('ner_model.h5')
 
 
 
@@ -145,5 +145,3 @@ test_tags = sequences_to_tag(y_test)  # 실제 NER
 # F1 평가 결과
 print(classification_report(test_tags, pred_tags))
 print("F1-score: {:.1%}".format(f1_score(test_tags, pred_tags)))
-
-
