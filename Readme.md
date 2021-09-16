@@ -125,20 +125,20 @@ code|city
 4. 버튼식 구현가능한지
 5. FindAnswer, 다른의도들 다되게 수정필요.
 
-<commit>
+<>
 ~~08.28 - 시나리오, 틀 작업.~~  
 ~~08.28 - max_seq_len = 12 설정~~  
-~~08.29 - 의도 2개 새로 학습 (도움말, 코로나현황)~~   
+~~08.29 - 의도 2개 새로 학습 (도움말, 코로나현황)~~  
 ~~08.30 - 개체명인식 새로 학습. ner 학습데이터 추가, 테스트완료~~  
-~~08.31 API 활용신청 및 활용~~
+~~08.31 API 활용신청 및 활용~~  
 ~~08.31 셀레니움 url띄우기까지만~~  
-~~09.01 intent, ner Test~~
-~~09.01 완전히 동시에는 구동이 안되지만 어느정도 텀을 두고 가능~~  
-~~09.01 db 설계 작동~~
-~~09.04 db 작동법, 테이블 설계, insert data(1)~~
-~~09.05 Hospital, city, subject insert data~~
-~~09.06 data insert~~
-~~09.07 DB dataa insert complete~~
-~~09.13 DB, 엔진 연동~~
-~~09.15 구름, db, 카카오 연동 확인~~
-~~09.17 db 연동 sql문 업데이트, intent{정보}~~
+~~09.01 intent, ner Test~~  
+~~09.01 완전히 동시에는 구동이 안되지만 어느정도 텀을 두고 가능~~    
+~~09.01 db 설계 작동~~  
+~~09.04 db 작동법, 테이블 설계, insert data(1)~~  
+~~09.05 Hospital, city, subject insert data~~  
+~~09.06 data insert~~  
+~~09.07 DB dataa insert complete~~  
+~~09.13 DB, 엔진 연동~~  
+~~09.15 구름, db, 카카오 연동 확인~~  
+~~09.17 db 연동 sql문 업데이트, intent{정보}~~  
