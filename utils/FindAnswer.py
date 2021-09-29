@@ -1,26 +1,43 @@
+from config.GlobalParams import total_jsonObj
 class FindAnswer:
     def __init__(self, db):
         self.db = db
 
     def _find_tag_value(self, pk):
-        H_info = {}
-        h_info_sql = """
-                     select * from Hospital, Hos_subject, Location
-                     where Hospital.병원_번호 = Hos_subject.병원_번호 = Location.병원_번호 and Hospital.병원_번호 = %d
-                     """ % (pk)
-        db_answer_one = self.db.select_one(h_info_sql)
-        db_answer_all = self.db.select_all(h_info_sql)
-        H_info['A_name'] = db_answer_one['이름']
+        H_info = {}; where = ""
+        sql = """
+              select * from Hospital, Hos_subject, Location
+              where Hospital.병원_번호 = Hos_subject.병원_번호 and Hospital.병원_번호 = Location.병원_번호 and (            
+              """
+        for idx, h_n in enumerate(pk) :
+            if idx == len(pk) - 1 :
+                where += " Hospital.병원_번호 = %d)" % h_n
+            else :
+                where += " Hospital.병원_번호 = %d or " % h_n
+        sql = sql + where
+        db_answer_one = self.db.select_one(sql)
+        db_answer_all = self.db.select_all(sql)
         H_info['A_Type'] = db_answer_one['Type']
         H_info['A_med_cnt'] = db_answer_one['의료인_수']
         H_info['A_Tel'] = db_answer_one['전화번호']
         H_info['A_lisense'] = db_answer_one['인허가일자']
+        H_info['A_City'] = db_answer_one['city_name']; H_info['A_S_c'] = db_answer_one['s_c']
         H_info['A_Location'] = db_answer_one['city_name'] + ' ' + db_answer_one['s_c'] + ' ' + db_answer_one['rest']
-        subject = ''
-        for sub in db_answer_all:
-            subject += sub['과목명'] + ' '
+
+        h_name = []; na = ''; subject = ''
+        for field in db_answer_all :
+            subject += field['과목명'] + ' '
             H_info['A_Subject'] = subject
+            if field['이름'] not in h_name :
+                h_name.append(field['이름'])
+        for name in h_name :
+           for tag in total_jsonObj :
+               if tag['BIZPLC_NM'] == name and tag['SIGUN_NM'] == H_info['A_City'] :
+                   na += name + ' [' + tag['BSN_STATE_NM'] + ']\n'
+                   H_info['A_name'] = na
+
         return H_info
+
 
     # 검색 쿼리 생성
     def _make_query(self, intent_name, ner_tags):
@@ -36,6 +53,7 @@ class FindAnswer:
             elif len(ner_tags) == 3:
                 where += "ner = '{0},{1},{2}'".format(ner_tags[0], ner_tags[1], ner_tags[2])
         sql = sql + where
+
         return sql
 
     # 답변 검색
@@ -52,47 +70,42 @@ class FindAnswer:
 
     # NER 태그를 실제 입력된 단어로 변환
     def tag_to_word(self, intent_name, ner_predicts, answer):
-        H_num = []; where = ""
+        H_num = [];  where = ""
         sql = """
-                select Hospital.병원_번호 from Hospital, Location 
-                where Hospital.병원_번호 = Location.병원_번호 and 
+             select Hospital.병원_번호 from Hospital, Hos_subject, Location
+             where Hospital.병원_번호 = Hos_subject.병원_번호 and Hospital.병원_번호 = Location.병원_번호 and
               """
-
-        if intent_name == '정보':
-            for word, tags in ner_predicts:
-                if tags == 'B_Hospital':
+        if intent_name != '인사' :
+            for word, tags in ner_predicts :
+                if tags == 'B_Hospital' :
                     where += ' 이름 = "%s"' % word
                 elif tags == 'B_City' :
-                    where += ' city_name = "%s" and ' % word
+                    where += " city_name like '%{}%' and ".format(word)
+                elif tags == 'B_S_c' :
+                    where += " s_c like '%{}%' and ".format(word)
+                elif tags == 'B_Type' :
+                    where +=  " Type like '%{}%' ".format(word)
+                elif tags == 'B_Treat' :
+                    where += " 과목명 like '%{}%' ".format(word)
             sql = sql + where
-
             db_answer = self.db.select_all(sql)
             for field in db_answer :
-                H_num.append(field['병원_번호'])
+                if field['병원_번호'] not in H_num :
+                    H_num.append(field['병원_번호'])
 
-        if len(H_num) > 1 : answer = '검색되는 병원 많음'
-        else :
-            for pk in H_num:
-                Hospital_INFO = self._find_tag_value(pk)
-            for answer_tag in Hospital_INFO:
-                answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
+            if intent_name == '정보' and len(H_num) > 1 :
+                answer  = "검색되는 병원  많음"
+            elif len(H_num) == 0 :
+                answer = "검색되는 병원이 없습니다."
+            else :
+                Hospital_INFO = self._find_tag_value(H_num)
 
+                for answer_tag in Hospital_INFO :
+                    answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
+                for word, answer_tag in ner_predicts :
+                    answer = answer.replace(answer_tag, word)
 
+            answer = answer.replace('{', '')
+            answer = answer.replace('}', '')
 
-        #             h_num_sql = """
-        #                         select 병원_번호 from Hospital where 이름 = "%s"
-        #                         """ % (word)
-        #             db_answer = self.db.select_all(h_num_sql)
-        #             for field in db_answer:
-        #                 H_num.append(field['병원_번호'])
-        #
-        #     if len(H_num) > 1 : answer = '검색되는 병원 많음'
-        #     else :
-        #         for pk in H_num:
-        #             Hospital_INFO = self._find_tag_value(pk)
-        #         for answer_tag in Hospital_INFO:
-        #             answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
-        #
-        answer = answer.replace('{', '')
-        answer = answer.replace('}', '')
         return answer

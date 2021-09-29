@@ -13,7 +13,7 @@ db = Database(
 db.connect()    # 디비 연결
 
 # 원문
-# query = '강남한방병원 정보'
+# query = '고려병원 정보'
 #
 # # 의도 파악
 # from models.intent.IntentModel import IntentModel
@@ -40,17 +40,19 @@ db.connect()    # 디비 연결
 # 답변 검색
 from utils.FindAnswer import FindAnswer
 
-intent_name = '정보'
-ner_tags = ['B_City','B_Hospital']
-predicts =[('김포시', 'B_City'),('고려병원', 'B_Hospital')]
-# predicts =[('안녕', 'B_Hospital'), ('정보', 'O')]
+intent_name = '리스트'
+ner_tags = ['B_City','B_Type']
+predicts =[('김포시','B_City'),('정신병원','B_Type')]
+
 try:
     f = FindAnswer(db)
     answer_text, answer_image = f.search(intent_name, ner_tags)
     answer = f.tag_to_word(intent_name, predicts, answer_text)
+
 except:
     answer = "죄송해요 무슨 말인지 모르겠어요"
 
-print("답변 : ", answer)
+print("답변:", answer)
 
 db.close() # 디비 연결 끊음
+

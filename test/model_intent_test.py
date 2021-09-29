@@ -6,8 +6,11 @@ p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
 
 intent = IntentModel(model_name='../models/intent/intent_model.h5', proprocess=p)
 query = []
-query.append('김포시 병원 리스트')
-# query.append('김포시 신경과 병원목록')
+query.append('포천 경기도의료원포천병원')
+query.append('포천시 경기도의료원포천병원')
+query.append('김포 치과병원')
+query.append('김포 종합병원')
+query.append('김포 정신병원')
 # query.append('김포시 병원')
 # query.append('김포 병원 목록')
 # query.append('김포시 고려병원 진료과목')

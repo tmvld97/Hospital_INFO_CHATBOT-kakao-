@@ -1810,3 +1810,4 @@ None	NNG
 효산병원	NNG
 S서울병원	NNG
 분당병원	NNG
+정신병원 NNG
