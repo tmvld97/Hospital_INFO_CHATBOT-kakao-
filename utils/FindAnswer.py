@@ -1,4 +1,4 @@
-from config.GlobalParams import total_jsonObj, corona_INFO, diss_predict_api
+from config.GlobalParams import total_jsonObj, corona_api, diss_predict_api
 
 class FindAnswer:
     def __init__(self, db):
@@ -95,6 +95,7 @@ class FindAnswer:
 
             sql = sql + where
             db_answer = self.db.select_all(sql)
+
             for field in db_answer :
                 if field['병원_번호'] not in H_num :
                     H_num.append(field['병원_번호'])
@@ -118,6 +119,7 @@ class FindAnswer:
                     for word, answer_tag in ner_predicts :
                         answer = answer.replace(answer_tag, word)
         elif intent_name == '코로나' :
+            corona_INFO = corona_api()
             for answer_tag in corona_INFO :
                 answer = answer.replace(answer_tag, corona_INFO[answer_tag])
 
