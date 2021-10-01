@@ -1,4 +1,5 @@
-from config.GlobalParams import total_jsonObj
+from config.GlobalParams import total_jsonObj, corona_INFO, diss_predict_api
+
 class FindAnswer:
     def __init__(self, db):
         self.db = db
@@ -23,6 +24,7 @@ class FindAnswer:
         H_info['A_lisense'] = db_answer_one['인허가일자']
         H_info['A_City'] = db_answer_one['city_name']; H_info['A_S_c'] = db_answer_one['s_c']
         H_info['A_Location'] = db_answer_one['city_name'] + ' ' + db_answer_one['s_c'] + ' ' + db_answer_one['rest']
+
 
         h_name = []; na = ''; subject = ''
         for field in db_answer_all :
@@ -70,23 +72,27 @@ class FindAnswer:
 
     # NER 태그를 실제 입력된 단어로 변환
     def tag_to_word(self, intent_name, ner_predicts, answer):
-        H_num = [];  where = ""
+        H_num = [];  where = ""; state = 0
         sql = """
              select Hospital.병원_번호 from Hospital, Hos_subject, Location
              where Hospital.병원_번호 = Hos_subject.병원_번호 and Hospital.병원_번호 = Location.병원_번호 and
               """
-        if intent_name != '인사' :
+        if intent_name == '정보' or intent_name == '리스트' :
             for word, tags in ner_predicts :
                 if tags == 'B_Hospital' :
                     where += ' 이름 = "%s"' % word
                 elif tags == 'B_City' :
                     where += " city_name like '%{}%' and ".format(word)
+                    diss_predict_INFO = diss_predict_api(word)
+                    state = 1
                 elif tags == 'B_S_c' :
                     where += " s_c like '%{}%' and ".format(word)
                 elif tags == 'B_Type' :
                     where +=  " Type like '%{}%' ".format(word)
                 elif tags == 'B_Treat' :
                     where += " 과목명 like '%{}%' ".format(word)
+
+
             sql = sql + where
             db_answer = self.db.select_all(sql)
             for field in db_answer :
@@ -99,13 +105,23 @@ class FindAnswer:
                 answer = "검색되는 병원이 없습니다."
             else :
                 Hospital_INFO = self._find_tag_value(H_num)
+                if state == 0 :
+                    for answer_tag in Hospital_INFO :
+                        answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
+                    for word, answer_tag in ner_predicts :
+                        answer = answer.replace(answer_tag, word)
+                elif state == 1 :
+                    for answer_tag in Hospital_INFO :
+                        answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
+                    for answer_tag in diss_predict_INFO :
+                        answer = answer.replace(answer_tag, str(diss_predict_INFO[answer_tag]))
+                    for word, answer_tag in ner_predicts :
+                        answer = answer.replace(answer_tag, word)
+        elif intent_name == '코로나' :
+            for answer_tag in corona_INFO :
+                answer = answer.replace(answer_tag, corona_INFO[answer_tag])
 
-                for answer_tag in Hospital_INFO :
-                    answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
-                for word, answer_tag in ner_predicts :
-                    answer = answer.replace(answer_tag, word)
 
-            answer = answer.replace('{', '')
-            answer = answer.replace('}', '')
-
+        answer = answer.replace('{', '')
+        answer = answer.replace('}', '')
         return answer
