@@ -6,11 +6,11 @@ p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
 
 intent = IntentModel(model_name='../models/intent/intent_model.h5', proprocess=p)
 query = []
-query.append('김포시 예측 정보')
-query.append('김포시 질병 정보')
-query.append('김포시 질병 예측')
-query.append('포천시 예측 정보')
-query.append('포천시 예측정보')
+query.append('튼튼건강의료소비자생협누리한방병원')
+# query.append('김포시 질병 정보')
+# query.append('김포시 질병 예측')
+# query.append('포천시 예측 정보')
+# query.append('포천시 예측정보')
 
 # query.append('코로나')
 # query.append('코로나 현황')

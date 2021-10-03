@@ -27,8 +27,11 @@ class FindAnswer:
 
 
         h_name = []; na = ''; subject = ''
-        for field in db_answer_all :
-            subject += field['과목명'] + ' '
+        for i, field in enumerate(db_answer_all) :
+            if i == len(db_answer_all) -1 :
+                subject += field['과목명']
+            else :
+                subject += field['과목명'] + ', '
             H_info['A_Subject'] = subject
             if field['이름'] not in h_name :
                 h_name.append(field['이름'])
@@ -71,8 +74,8 @@ class FindAnswer:
         return (answer['answer'], answer['answer_image'])
 
     # NER 태그를 실제 입력된 단어로 변환
-    def tag_to_word(self, intent_name, ner_predicts, answer):
-        H_num = [];  where = ""; state = 0
+    def tag_to_word(self, intent_name, ner_predicts, answer, ner_tags):
+        H_num = [];  where = "";  alph_text = ""
         sql = """
              select Hospital.병원_번호 from Hospital, Hos_subject, Location
              where Hospital.병원_번호 = Hos_subject.병원_번호 and Hospital.병원_번호 = Location.병원_번호 and
@@ -83,8 +86,8 @@ class FindAnswer:
                     where += ' 이름 = "%s"' % word
                 elif tags == 'B_City' :
                     where += " city_name like '%{}%' and ".format(word)
-                    diss_predict_INFO = diss_predict_api(word)
-                    state = 1
+                    if intent_name == '리스트' :
+                        alph_text = diss_predict_api(word)
                 elif tags == 'B_S_c' :
                     where += " s_c like '%{}%' and ".format(word)
                 elif tags == 'B_Type' :
@@ -92,9 +95,9 @@ class FindAnswer:
                 elif tags == 'B_Treat' :
                     where += " 과목명 like '%{}%' ".format(word)
 
-
             sql = sql + where
             db_answer = self.db.select_all(sql)
+
 
             for field in db_answer :
                 if field['병원_번호'] not in H_num :
@@ -106,18 +109,11 @@ class FindAnswer:
                 answer = "검색되는 병원이 없습니다."
             else :
                 Hospital_INFO = self._find_tag_value(H_num)
-                if state == 0 :
-                    for answer_tag in Hospital_INFO :
-                        answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
-                    for word, answer_tag in ner_predicts :
-                        answer = answer.replace(answer_tag, word)
-                elif state == 1 :
-                    for answer_tag in Hospital_INFO :
-                        answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
-                    for answer_tag in diss_predict_INFO :
-                        answer = answer.replace(answer_tag, str(diss_predict_INFO[answer_tag]))
-                    for word, answer_tag in ner_predicts :
-                        answer = answer.replace(answer_tag, word)
+                for answer_tag in Hospital_INFO :
+                    answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
+                for word, answer_tag in ner_predicts :
+                    answer = answer.replace(answer_tag, word)
+
         elif intent_name == '코로나' :
             corona_INFO = corona_api()
             for answer_tag in corona_INFO :
@@ -126,4 +122,8 @@ class FindAnswer:
 
         answer = answer.replace('{', '')
         answer = answer.replace('}', '')
-        return answer
+
+        if intent_name == '정보' and len(ner_tags) > 1 and 'B_City' not in ner_tags :
+            alph_text = "더 자세히 알고싶으시면 병원이름을 입력해보세요!"
+
+        return answer, alph_text

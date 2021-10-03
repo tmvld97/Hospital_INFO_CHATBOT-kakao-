@@ -26,7 +26,7 @@ def to_client(conn, addr, params):
         db.connect()  # 디비 연결
 
         # 데이터 수신
-        read = conn.recv(2048)  # 수신 데이터가 있을 때 까지 블로킹
+        read = conn.recv(5120)  # 수신 데이터가 있을 때 까지 블로킹
         print('===========================')
         print('Connection from: %s' % str(addr))
 
@@ -54,7 +54,7 @@ def to_client(conn, addr, params):
         try:
             f = FindAnswer(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
-            answer = f.tag_to_word(intent_name,ner_predicts, answer_text)
+            answer,alph_text = f.tag_to_word(intent_name,ner_predicts, answer_text, ner_tags)
 
         except:
             answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
@@ -65,8 +65,10 @@ def to_client(conn, addr, params):
             "Answer": answer,
             "AnswerImageUrl" : answer_image,
             "Intent": intent_name,
-            "NER": str(ner_predicts)
+            "NER": str(ner_predicts),
+            "alph" : alph_text
         }
+        print(send_json_data_str)
         message = json.dumps(send_json_data_str)
         conn.send(message.encode())
 

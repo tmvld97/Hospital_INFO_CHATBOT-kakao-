@@ -2,13 +2,11 @@ import requests
 import xmltodict
 import json
 from datetime import datetime, timedelta
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from time import sleep
+
 # 단어 시퀀스 벡터 크기
 MAX_SEQ_LEN = 12
 # kewords
-HOS_TYPE = ['요양병원', '한방병원', '종합병원', '치과병원','정신병원','노인병원']
+HOS_TYPE = ['요양병원', '한방병원', '종합병원', '치과병원','정신병원','노인병원','도움말','도움']
 HOS_SUBJECT = ['진료', '진찰', '전문', '종목', '진료과목', '진찰과목', '전문과목', '과목']
 HOS_LOC = ['주소','위치','가는 길','찾아가기','길찾기','네비게이션','지도','어디','어딨','어떻게 가','어딘지','가는길','네비']
 HOS_TEL = ['전화','번호','전화번호','연락','연락처']
@@ -65,16 +63,27 @@ def corona_api() :
     if len(corona_json) == 2 : # 오늘자 업데이트 됐을 시
         for tag in corona_json :
             if tag['stateDt'] == end_day :
+                # 기준일
                 corona_INFO['A_stateDt'] = tag['stateDt'][:4] + '-' + tag['stateDt'][4:6] + '-' + tag['stateDt'][6:]
+                # 기준시간
                 corona_INFO['A_stateTime'] = tag['stateTime']
+                # 확진자 수
                 corona_INFO['A_decideCnt'] = tag['decideCnt']
+                # 격리해제 수
                 corona_INFO['A_clearCnt'] = tag['clearCnt']
+                # 검사진행 수
                 corona_INFO['A_examCnt'] = tag['examCnt']
+                # 사망자 수
                 corona_INFO['A_deathCnt'] = tag['deathCnt']
+                # 치료중 환자 수
                 corona_INFO['A_careCnt'] = tag['careCnt']
+                # 결과 음성 수
                 corona_INFO['A_resutlNegCnt'] = tag['resutlNegCnt']
-                corona_INFO['A_accExamCnt'] = tag['accExamCnt']
+                # # 누적 검사 수
+                # corona_INFO['A_accExamCnt'] = tag['accExamCnt']
+                # 누적 검사 완료 수
                 corona_INFO['A_accExamCompCnt'] = tag['accExamCompCnt']
+                # 누적 확진률
                 rate = float(tag['accDefRate'])
                 rate = round(rate,2)
                 corona_INFO['A_accDefRate'] = str(rate) + '%'
@@ -96,7 +105,7 @@ def corona_api() :
 # diss_predict api
 def diss_predict_api(word) :
     predict_diss = []; predict_INFO = {};
-    predict_INFO['A_Risk'] = 0
+    predict_INFO['risk'] = 0
     predict_keys = [i for i in Diss_city_code.keys()]
     key = ''
     end_day = str(datetime.today().date()).replace('-','')
@@ -113,8 +122,24 @@ def diss_predict_api(word) :
     # predict_INFO 정의
     for tag in predict_diss :
         if tag['dt'] == end_day and tag['lowrnkZnCd'] == str(Diss_city_code[key]):
-                if int(tag['risk']) > predict_INFO['A_Risk'] :
-                    predict_INFO['A_Risk'] = int(tag['risk'])
+                if int(tag['risk']) > predict_INFO['risk'] :
+                    predict_INFO['dt'] = tag['dt'][:4] + '-' + tag['dt'][4:6] + '-' + tag['dt'][-2:] # 예측일자
+                    predict_INFO['dissCd'] = tag['dissCd'] # 질병코드
+                    predict_INFO['risk'] = int(tag['risk']) # 예측 위험도
+                    predict_INFO['dissRiskXpln'] = tag['dissRiskXpln'] # 질병지침도
 
-    return predict_INFO
+    if predict_INFO['dissCd'] == '1' : predict_INFO['dissCd'] = '감기'
+    elif predict_INFO['dissCd'] == '2' : predict_INFO['dissCd'] = '눈병'
+    elif predict_INFO['dissCd'] == '3' : predict_INFO['dissCd'] = '식중독'
+    elif predict_INFO['dissCd'] == '4' : predict_INFO['dissCd'] = '천식'
+    elif predict_INFO['dissCd'] == '5' : predict_INFO['dissCd'] = '피부염'
 
+    if predict_INFO['risk'] == 1 : predict_INFO['risk'] = '관심'
+    elif predict_INFO['risk'] == 2 : predict_INFO['risk'] = '주의'
+    elif predict_INFO['risk'] == 3 : predict_INFO['risk'] = '경고'
+    elif predict_INFO['risk'] == 4 : predict_INFO['risk'] = '위험'
+
+    predict_text = "그리고 {0}는 {1} 기준\n{2}이(가) {3} 단계에요!\n예방법을 한번 확인해주세요!\n\n예방법 : {4}".format(word,predict_INFO['dt'],
+                                                                                                  predict_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissRiskXpln'])
+
+    return predict_text

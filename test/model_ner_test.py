@@ -8,11 +8,11 @@ ner = NerModel(model_name='../models/ner/ner_model.h5', proprocess=p)
 query = []
 
 
-query.append('김포시 예측 정보')
-query.append('김포시 질병 정보')
-query.append('김포시 질병 예측')
-query.append('포천시 예측 정보')
-query.append('포천시 예측정보')
+
+query.append('튼튼건강의료소비자생협누리한방병원')
+# query.append('김포시 질병 예측')
+# query.append('포천시 예측 정보')
+# query.append('포천시 예측정보')
 
 # query.append('김포시 요양병원')
 # query.append('김포시 장기동 요양병원')
