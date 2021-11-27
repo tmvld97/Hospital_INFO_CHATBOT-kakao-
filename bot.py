@@ -26,7 +26,7 @@ def to_client(conn, addr, params):
         db.connect()  # 디비 연결
 
         # 데이터 수신
-        read = conn.recv(5120)  # 수신 데이터가 있을 때 까지 블로킹
+        read = conn.recv(9120)  # 수신 데이터가 있을 때 까지 블로킹
         print('===========================')
         print('Connection from: %s' % str(addr))
 
@@ -54,12 +54,14 @@ def to_client(conn, addr, params):
         try:
             f = FindAnswer(db)
             answer_text, answer_image = f.search(intent_name, ner_tags)
-            answer,alph_text = f.tag_to_word(intent_name,ner_predicts, answer_text, ner_tags)
+            answer,alph_text,error_code = f.tag_to_word(intent_name,ner_predicts, answer_text, ner_tags)
+
+            if error_code != 0 : answer_image = "https://ifh.cc/g/XU37SW.jpg"
 
         except:
-            answer = "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부 할게요."
-            answer_image = None
-
+            answer = "죄송해요 무슨 말인지 모르겠어요\n\"도움말\"을 참조해주세요."
+            answer_image = "https://ifh.cc/g/XU37SW.jpg"
+            alph_text = ""
         send_json_data_str = {
             "Query" : query,
             "Answer": answer,

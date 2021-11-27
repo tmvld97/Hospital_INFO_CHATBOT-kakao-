@@ -47,7 +47,7 @@ class FindAnswer:
     # 검색 쿼리 생성
     def _make_query(self, intent_name, ner_tags):
         sql = "select * from Predict"
-        if intent_name == '인사' or intent_name == '코로나':
+        if intent_name != '정보' and intent_name != '리스트':
             where = " where intent='{}' ".format(intent_name)
         else:
             where = ' where intent="%s" and ' % intent_name
@@ -63,6 +63,7 @@ class FindAnswer:
 
     # 답변 검색
     def search(self, intent_name, ner_tags):
+
         # 의도명, 개체명으로 답변 검색
         sql = self._make_query(intent_name, ner_tags)
         answer = self.db.select_one(sql)
@@ -75,15 +76,17 @@ class FindAnswer:
 
     # NER 태그를 실제 입력된 단어로 변환
     def tag_to_word(self, intent_name, ner_predicts, answer, ner_tags):
-        H_num = [];  where = "";  alph_text = ""
+        H_num = [];  where = "";  alph_text = ""; error_code = 0
         sql = """
              select Hospital.병원_번호 from Hospital, Hos_subject, Location
              where Hospital.병원_번호 = Hos_subject.병원_번호 and Hospital.병원_번호 = Location.병원_번호 and
               """
+
         if intent_name == '정보' or intent_name == '리스트' :
             for word, tags in ner_predicts :
                 if tags == 'B_Hospital' :
                     where += ' 이름 = "%s"' % word
+                    # where += " 이름 like'%{}'".format(word)
                 elif tags == 'B_City' :
                     where += " city_name like '%{}%' and ".format(word)
                     if intent_name == '리스트' :
@@ -104,15 +107,24 @@ class FindAnswer:
                     H_num.append(field['병원_번호'])
 
             if intent_name == '정보' and len(H_num) > 1 :
-                answer  = "검색되는 병원  많음"
-            elif len(H_num) == 0 :
-                answer = "검색되는 병원이 없습니다."
+                answer  = "같은이름으로 검색되는 병원이 많아요!\nex)OO시 OO병원으로 검색해보세요!"
+                error_code = 1
+                # Hospital_INFO = self._find_tag_value(H_num)
+                # answer += Hospital_INFO['A_name']
+
+            if len(H_num) == 0 :
+
+                answer = "검색되는 병원이 없어요!\n\"도움말\"을 참조해보세요!"
+                error_code = 2
+
+
             else :
                 Hospital_INFO = self._find_tag_value(H_num)
                 for answer_tag in Hospital_INFO :
                     answer = answer.replace(answer_tag, Hospital_INFO[answer_tag])
                 for word, answer_tag in ner_predicts :
                     answer = answer.replace(answer_tag, word)
+
 
         elif intent_name == '코로나' :
             corona_INFO = corona_api()
@@ -126,4 +138,4 @@ class FindAnswer:
         if intent_name == '정보' and len(ner_tags) > 1 and 'B_City' not in ner_tags :
             alph_text = "더 자세히 알고싶으시면 병원이름을 입력해보세요!"
 
-        return answer, alph_text
+        return answer, alph_text, error_code

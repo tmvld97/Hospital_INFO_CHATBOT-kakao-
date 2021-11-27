@@ -9,7 +9,7 @@ def read_corpus_data(filename):
     return data
 
 # 말뭉치 데이터 가져오기
-corpus_data = read_corpus_data('../train_data/add_total_train.txt')
+corpus_data = read_corpus_data('final_train.txt')
 
 
 p = Preprocess(userdic='../../utils/user_dic.txt')
@@ -28,12 +28,13 @@ for c in corpus_data:
 tokenizer = preprocessing.text.Tokenizer(oov_token='OOV')
 tokenizer.fit_on_texts(dict)
 word_index = tokenizer.word_index
+print(len(word_index))
 print(word_index)
-# 사전 파일 생성
-f = open("chatbot_dict.bin", "wb")
-try:
-    pickle.dump(word_index, f)
-except Exception as e:
-    print(e)
-finally:
-    f.close()
+# # 사전 파일 생성
+# f = open("new_chatbot_dict.bin", "wb")
+# try:
+#     pickle.dump(word_index, f)
+# except Exception as e:
+#     print(e)
+# finally:
+#     f.close()

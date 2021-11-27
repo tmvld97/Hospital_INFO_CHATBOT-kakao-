@@ -1,13 +1,13 @@
 import tensorflow as tf
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras import preprocessing
-# from config.GlobalParams import CITY
+from config.GlobalParams import HELP
 # 의도 분류 모델 모듈
 class IntentModel:
     def __init__(self, model_name, proprocess):
 
         # 의도 클래스 별 레이블
-        self.labels = {0: "인사", 1: "정보", 2: "리스트", 3: "코로나"}
+        self.labels = {0: "인사", 1: "정보", 2: "리스트", 3: "코로나", 4: "도움말"}
 
         # 의도 분류 모델 불러오기
         self.model = load_model(model_name)
@@ -35,11 +35,8 @@ class IntentModel:
         predict_class = tf.math.argmax(predict, axis=1)
 
         np_predict = predict_class.numpy()[0]
-
-
-        # for cit in CITY :
-        #     if len(keywords) == 1 and keywords[0] == cit :
-        #         np_predict = 3
-        #         break
+        for hel in HELP  :
+            if len(keywords) == 1 and keywords[0] == hel :
+                np_predict = 4
 
         return np_predict
