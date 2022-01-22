@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, abort
-
 import socket
 import json
 
@@ -26,18 +25,17 @@ def get_answer_from_engine(bottype, query):
     mySocket.send(message.encode())
 
     # 챗봇 엔진 답변 출력
-    data = mySocket.recv(2048).decode()
+    data = mySocket.recv(9120).decode()
     ret_data = json.loads(data)
-
     # 챗봇 엔진 서버 연결 소켓 닫기
     mySocket.close()
+
     return ret_data
 
 
 @app.route('/', methods=['GET'])
 def index():
-    return 'hello', 200
-
+    print('hello')
 
 # 챗봇 엔진 query 전송 API
 @app.route('/query/<bot_type>', methods=['POST'])
@@ -56,14 +54,14 @@ def query(bot_type):
             utterance = body['userRequest']['utterance']
             ret = get_answer_from_engine(bottype=bot_type, query=utterance)
 
-            from . import KakaoTemplate
+            from KakaoTemplate import KakaoTemplate
             skillTemplate = KakaoTemplate()
             return skillTemplate.send_response(ret)
 
-        elif bot_type == "NAVER":
-            # 네이버톡톡 이벤트 처리
-            pass
 
+        elif bot_type == "NAVER":
+            # 네이버톡톡 Web hook 처리
+            pass
         else:
             # 정의되지 않은 bot type인 경우 404 오류
             abort(404)

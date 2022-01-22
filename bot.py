@@ -9,15 +9,18 @@ from models.intent.IntentModel import IntentModel
 from models.ner.NerModel import NerModel
 from utils.FindAnswer import FindAnswer
 
+
 # 전처리 객체 생성
-p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
-               userdic='utils/user_dic.txt')
+p = Preprocess(word2index_dic='/workspace/TEST/train_tools/dict/chatbot_dict.bin',
+               userdic = '/workspace/TEST/utils/user_dic.txt')
 
 # 의도 파악 모델
-intent = IntentModel(model_name='models/intent/intent_model.h5', proprocess=p)
+intent = IntentModel(model_name='/workspace/TEST/models/intent/intent_model.h5', proprocess=p)
 
 # 개체명 인식 모델
-ner = NerModel(model_name='models/ner/ner_model.h5', proprocess=p)
+ner = NerModel(model_name='/workspace/TEST/models/ner/ner_model.h5', proprocess=p)
+
+
 
 def to_client(conn, addr, params):
     db = params['db']
@@ -48,8 +51,8 @@ def to_client(conn, addr, params):
         # 개체명 파악
         ner_predicts = ner.predict(query)
         ner_tags = ner.predict_tags(query)
-
-
+        print("의도 분석 :" ,intent_name)
+        print("개체명 분석 :", ner_predicts)
         # 답변 검색
         try:
             f = FindAnswer(db)
@@ -62,6 +65,7 @@ def to_client(conn, addr, params):
             answer = "죄송해요 무슨 말인지 모르겠어요\n\"도움말\"을 참조해주세요."
             answer_image = "https://ifh.cc/g/XU37SW.jpg"
             alph_text = ""
+
         send_json_data_str = {
             "Query" : query,
             "Answer": answer,
@@ -70,7 +74,6 @@ def to_client(conn, addr, params):
             "NER": str(ner_predicts),
             "alph" : alph_text
         }
-        print(send_json_data_str)
         message = json.dumps(send_json_data_str)
         conn.send(message.encode())
 

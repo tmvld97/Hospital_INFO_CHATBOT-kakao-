@@ -33,4 +33,7 @@ class KakaoTemplate:
         if bot_resp['Answer'] is not None:
             responseBody['template']['outputs'].append(self.simpleTextComponent(bot_resp['Answer']))
 
+        if bot_resp['alph'] != "" :
+            responseBody['template']['outputs'].append(self.simpleTextComponent(bot_resp['alph']))
+
         return responseBody

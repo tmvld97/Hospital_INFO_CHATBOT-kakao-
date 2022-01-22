@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 
 # 단어 시퀀스 벡터 크기
-MAX_SEQ_LEN = 11
+MAX_SEQ_LEN = 12
 # kewords
 HOS_TYPE = ['요양병원', '한방병원', '종합병원', '치과병원','정신병원','노인병원','도움말','도움']
 HOS_SUBJECT = ['진료', '진찰', '전문', '종목', '진료과목', '진찰과목', '전문과목', '과목']
@@ -12,14 +12,14 @@ HOS_LOC = ['주소','위치','가는 길','찾아가기','길찾기','네비게�
 HOS_TEL = ['전화','번호','전화번호','연락','연락처']
 HELP = ['도움말','도움','도와줘']
 Diss_city_code = {'수원시':41111,'성남시':41131,'의정부시':41150,'안양시':41171,'부천시':41190,'광명시':41210,
-                   '평택시':41220,'동두천시':41250,'안산시':41271,'고양시':41281,'과천시':41290,'구리시':41310,
-                   '남양주시':41360,'오산시':41370,'시흥시':41390,'군포시':41410,'의왕시':41430,'하남시':41450,
-                   '용인시':41461,'파주시':41480,'이천시':41500,'안성시':41550,'김포시':41570,'화성시':41590,
-                   '광주시':41610,'양주시':41630,'포천시':41650,'여주시':41670,'연천군':41800,'가평군':41820, '양평군':41830}
+                  '평택시':41220,'동두천시':41250,'안산시':41271,'고양시':41281,'과천시':41290,'구리시':41310,
+                  '남양주시':41360,'오산시':41370,'시흥시':41390,'군포시':41410,'의왕시':41430,'하남시':41450,
+                  '용인시':41461,'파주시':41480,'이천시':41500,'안성시':41550,'김포시':41570,'화성시':41590,
+                  '광주시':41610,'양주시':41630,'포천시':41650,'여주시':41670,'연천군':41800,'가평군':41820, '양평군':41830}
 
 
 def GlobalParams():
-    global MAX_SEQ_LEN, HOS_TYPE, HOS_SUBJECT, HOS_LOC, HOS_TEL
+    global MAX_SEQ_LEN, HOS_TYPE, HOS_SUBJECT, HOS_LOC, HOS_TEL,HELP
     global total_jsonObj, corona_INFO, predict_INFO
 
 def xml_to_json(url):
@@ -50,10 +50,6 @@ jsonString2 = json.dumps(dict2['GgHosptlM']['row'], ensure_ascii=False)
 jsonObj = json.loads(jsonString)
 jsonObj2 = json.loads(jsonString2)
 total_jsonObj = jsonObj + jsonObj2
-
-
-
-
 
 # corona api
 def corona_api() :
@@ -127,11 +123,11 @@ def diss_predict_api(word) :
     # predict_INFO 정의
     for tag in predict_diss :
         if tag['dt'] == end_day and tag['lowrnkZnCd'] == str(Diss_city_code[key]):
-                if int(tag['risk']) > (predict_INFO['risk']) :
-                    predict_INFO['dt'] = tag['dt'][:4] + '-' + tag['dt'][4:6] + '-' + tag['dt'][-2:] # 예측일자
-                    predict_INFO['dissCd'] = tag['dissCd'] # 질병코드
-                    predict_INFO['risk'] = int(tag['risk']) # 예측 위험도
-                    predict_INFO['dissRiskXpln'] = tag['dissRiskXpln'] # 질병지침도
+            if int(tag['risk']) > (predict_INFO['risk']) :
+                predict_INFO['dt'] = tag['dt'][:4] + '-' + tag['dt'][4:6] + '-' + tag['dt'][-2:] # 예측일자
+                predict_INFO['dissCd'] = tag['dissCd'] # 질병코드
+                predict_INFO['risk'] = int(tag['risk']) # 예측 위험도
+                predict_INFO['dissRiskXpln'] = tag['dissRiskXpln'] # 질병지침도
 
     for tag in predict_diss :
         if tag['dt'] == end_day and tag['lowrnkZnCd'] == str(Diss_city_code[key]):
@@ -145,12 +141,12 @@ def diss_predict_api(word) :
         predict_INFO = trans_dict(predict_INFO)
         alph_INFO = trans_dict(alph_INFO)
         predict_text = "그리고 {0}는 {1} 기준\n{2}와 {3}이(가) {4} 단계에요!\n예방법을 한번 확인해주세요!\n\n{5} : {6}\n{7} : {8}".format(word,predict_INFO['dt'],predict_INFO['dissCd'],
-                                                                                                      alph_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissCd'],
-                                                                                                      predict_INFO['dissRiskXpln'],alph_INFO['dissCd'],alph_INFO['dissRiskXpln'])
+                                                                                                                 alph_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissCd'],
+                                                                                                                 predict_INFO['dissRiskXpln'],alph_INFO['dissCd'],alph_INFO['dissRiskXpln'])
     else :
         predict_INFO = trans_dict(predict_INFO)
         predict_text = "그리고 {0}는 {1} 기준\n{2}이(가) {3} 단계에요!\n예방법을 한번 확인해주세요!\n\n{4} : {5}".format(word,predict_INFO['dt'],
-                                                                                                predict_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissCd'],predict_INFO['dissRiskXpln'])
+                                                                                                 predict_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissCd'],predict_INFO['dissRiskXpln'])
     return predict_text
 
 
@@ -173,19 +169,3 @@ def trans_dict(dict_INFO) :
 
 
 
-
-    # if predict_INFO['dissCd'] == '1' : predict_INFO['dissCd'] = '감기'
-    # elif predict_INFO['dissCd'] == '2' : predict_INFO['dissCd'] = '눈병'
-    # elif predict_INFO['dissCd'] == '3' : predict_INFO['dissCd'] = '식중독'
-    # elif predict_INFO['dissCd'] == '4' : predict_INFO['dissCd'] = '천식'
-    # elif predict_INFO['dissCd'] == '5' : predict_INFO['dissCd'] = '피부염'
-    #
-    # if predict_INFO['risk'] == 1 : predict_INFO['risk'] = '관심'
-    # elif predict_INFO['risk'] == 2 : predict_INFO['risk'] = '주의'
-    # elif predict_INFO['risk'] == 3 : predict_INFO['risk'] = '경고'
-    # elif predict_INFO['risk'] == 4 : predict_INFO['risk'] = '위험'
-    #
-    # predict_text = "그리고 {0}는 {1} 기준\n{2}이(가) {3} 단계에요!\n예방법을 한번 확인해주세요!\n\n예방법 : {4}".format(word,predict_INFO['dt'],
-    #                                                                                               predict_INFO['dissCd'],predict_INFO['risk'],predict_INFO['dissRiskXpln'])
-    #
-    # return predict_text

@@ -1811,3 +1811,5 @@ None	NNG
 S서울병원	NNG
 분당병원	NNG
 정신병원 NNG
+한성심원병원 NNG
+경기도의료원포천병원 NNG

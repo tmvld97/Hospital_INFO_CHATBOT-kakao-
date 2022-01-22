@@ -61,14 +61,20 @@ jsonObj = json.loads(jsonString)
 jsonObj2 = json.loads(jsonString2)
 
 hospital = []; hospital_1 = [];city = []
-u_d = open('../utils/user_dic.txt', 'a', encoding= 'utf-8')
-for tag in jsonObj:
-    city.append(tag['SIGUN_NM'])
+hospital_2 = []
+total_json = jsonObj + jsonObj2
 
-for tag in jsonObj2:
-    city.append(tag['SIGUN_NM'])
+
+u_d = open('../utils/user_dic.txt', 'a', encoding= 'utf-8')
+for tag in total_json:
+    if tag['BSN_STATE_NM'] != '폐업' :
+        hospital.append(tag['BIZPLC_NM'])
+
+
+
 
 city = remove_redundancy(city)
+
 
 
 

@@ -36,10 +36,10 @@ class FindAnswer:
             if field['이름'] not in h_name :
                 h_name.append(field['이름'])
         for name in h_name :
-           for tag in total_jsonObj :
-               if tag['BIZPLC_NM'] == name and tag['SIGUN_NM'] == H_info['A_City'] :
-                   na += name + ' [' + tag['BSN_STATE_NM'] + ']\n'
-                   H_info['A_name'] = na
+            for tag in total_jsonObj :
+                if tag['BIZPLC_NM'] == name and tag['SIGUN_NM'] == H_info['A_City'] :
+                    na += name + ' [' + tag['BSN_STATE_NM'] + ']\n'
+                    H_info['A_name'] = na
 
         return H_info
 
@@ -86,7 +86,6 @@ class FindAnswer:
             for word, tags in ner_predicts :
                 if tags == 'B_Hospital' :
                     where += ' 이름 = "%s"' % word
-                    # where += " 이름 like'%{}'".format(word)
                 elif tags == 'B_City' :
                     where += " city_name like '%{}%' and ".format(word)
                     if intent_name == '리스트' :
@@ -109,11 +108,7 @@ class FindAnswer:
             if intent_name == '정보' and len(H_num) > 1 :
                 answer  = "같은이름으로 검색되는 병원이 많아요!\nex)OO시 OO병원으로 검색해보세요!"
                 error_code = 1
-                # Hospital_INFO = self._find_tag_value(H_num)
-                # answer += Hospital_INFO['A_name']
-
-            if len(H_num) == 0 :
-
+            elif len(H_num) == 0 :
                 answer = "검색되는 병원이 없어요!\n\"도움말\"을 참조해보세요!"
                 error_code = 2
 

@@ -26,12 +26,10 @@ while True:
     mySocket.send(message.encode())
 
     # 챗봇 엔진 답변 출력
-    data = mySocket.recv(9120).decode()
+    data = mySocket.recv(2048).decode()
     ret_data = json.loads(data)
     print("답변 : ")
     print(ret_data['Answer'])
-    if ret_data['alph'] != "" :
-        print(ret_data['alph'])
     print(ret_data)
     print(type(ret_data))
     print("\n")
