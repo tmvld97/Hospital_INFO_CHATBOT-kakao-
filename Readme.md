@@ -11,7 +11,7 @@
   3. 조건에 해당되는 병원 리스트 제공
   4. 도시별 위험 질병 경고도
   5. 코로나 현황제공
-> **[작품 보고서]**(./readme/졸업작품보고서양식(2021).hwp)
+> **[작품 보고서](./readme/졸업작품보고서양식(2021).hwp)**
   
   ![ezgif com-gif-maker](https://user-images.githubusercontent.com/55508788/150677800-b21a3d9e-7a1d-4cf4-bc84-3b79ba42188c.gif)
   
