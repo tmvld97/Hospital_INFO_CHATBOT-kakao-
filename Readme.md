@@ -23,6 +23,7 @@
     - PyCharm 2021, Groom IDE
   * Language & Framework
     - Python 3.8.3, Flask 2.0.1 
+    - Tensorflow - gpu2.3.0 & Keras
   * Data Base
     - AWS (RDS)
     - My SQL
