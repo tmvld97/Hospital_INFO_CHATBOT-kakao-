@@ -22,36 +22,50 @@
   * etc
     - Kakao I Open builder, KoNLPy
   
-# 시스템 구성도
+## 시스템 구성도
 ![jpg_1](./readme/시스템구성도.png)
 * 사용자는 외부 메신저 플랫폼을 통해 데이터를 주고 받으며 챗봇 엔진 사이에서
   서로 데이터를 주고받을 수 있도록 인터페이스 역할을 하는 외부 API서버를 통해
   딥러닝 모델이 있는 내부 엔진서버와 통신하며 사용자의 의도와 개체를 분석해
   올바른 답변을 답변DB에서 select하여 역순으로 사용자에게 전달합니다.
 
-# 챗봇엔진 구조
+## 챗봇엔진 구조
 ![jpg_2](./readme/챗봇엔진구성.png)
 * 전처리 과정을 거쳐 2가지의 딥러닝 학습 모델을 거칩니다.
 * 각 모델의 output으로 이루어진 키워드를 조건으로 답변DB에서 알맞은
   답변을 찾아 출력합니다.
 
-# 의도분류 모델(CNN)
+## 의도분류 모델(CNN)
 ![jpg_3](./readme/CNN구조.png)
 * tensorflow - gpu2.3.0 & Keras
-* **accuracy** - Train : 99%, Validation : 99%, Test : 99%
-|제목 셀1|제목 셀2|제목 셀3|제목 셀4|
-|---|---|---|---|
-|내용 1|내용 2|내용 3|내용 4|
-|내용 5|내용 6|내용 7|내용 8|
-|내용 9|내용 10|내용 11|내용 12|
+* **accuracy** - Train : 99%, Validation : 99%, Test : 99%</br>
 
+| | Conv1 | Conv2 | Conv3 | Dense | 
+:---: | :---: | :---: | :---: | :---: |
+**Filters** | 128 | 128 | 128 | - |
+**Kernel_size** | 3*3 | 4*4 | 5*5 | - |
+**Output** | pool1 | pool2 | pool3 | 128(node) |
+**Input**: seq_length(max_len = 11) Dense : sum(pooling)</br>
+**Classification** :   
+0 : 인사</br>
+1 : 병원 정보 제공</br>
+2 : 병원 리스트 제공</br>
+3 : 코로나 현황 정보 제공 </br>
 
-# 개체인식 모델(양방향 LSTM)
+## 개체인식 모델(양방향 LSTM)
 ![jpg_4](./readme/LSTM구조.png)
 * tensorflow - gpu2.3.0 & Keras
-* **accuracy** - F1 Score(test data) : 99% 
-# Database
+* **accuracy** - F1 Score(test data) : 99%
+
+| | Embedding | Bidirectional Lstm | Dense |
+:---: | :---: | :---: | :---: | 
+**Node** | input : 1831</br>size : 30 | 200 | 6</br>(tag_size) | - |
+**Activation** | - | - | softmax | - |
+**Input** : seg_length(avg_len = 9)
+
+## Database
 ![jpg_5](./readme/ERD.png)
 * Amazon(RDS) - MySQL
+* MySQL workbench 8.0
 * 고려사항 - multi value 
 
