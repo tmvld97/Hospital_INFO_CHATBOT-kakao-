@@ -70,7 +70,14 @@
 **Node** | input : 1831</br>size : 30 | 200 | 6</br>(tag_size) | - |
 **Activation** | - | - | softmax |
 
-**Input** : seg_length(avg_len = 9)
+**Input** : seg_length(avg_len = 9)</br>
+**Classification** : 
+1. B_Hospital(병원명)
+2. B_Type(종류)
+3. B_Treat(진료과목)
+4. B_City(도시:시)
+5. B_s_c(도시:동)
+6. O(그 외)
 
 ## [Database](https://github.com/tmvld97/graduate-modeling/blob/master/utils/Database.py)
 ![jpg_5](./readme/ERD.png)
