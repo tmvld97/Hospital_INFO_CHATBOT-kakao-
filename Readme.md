@@ -88,3 +88,12 @@
 * KAKAO Chaneel 생성
 * Groom IDE
 
+## [Open API](https://github.com/tmvld97/graduate-modeling/blob/master/config/GlobalParams.py)
+> 공공데이터포털 - 국민건강보험공단 질병예측 정보</br>
+> 공공데이터포털 - 공공데이터활용지원센터_보건복지부 코로나19 감염 현황</br>
+> 경기데이터드림 - 경기도권 병원 현황[병원급]
+
+#### 참고자료
+> Chatbot 시장동향 - “Marketsandmarkets, Chatbot Market, 2019”, https://www.marketsandmarkets.com/Market-Reports/smart-advisor-market-72302363.html </br>
+> 
+> 
