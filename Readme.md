@@ -63,11 +63,26 @@
 **Node** | input : 1831</br>size : 30 | 200 | 6</br>(tag_size) | - |
 **Activation** | - | - | softmax |
 
-[**Input** : seg_length(avg_len = 9)]
+**Input** : seg_length(avg_len = 9)
 
 ## Database
 ![jpg_5](./readme/ERD.png)
 * Amazon(RDS) - MySQL
 * MySQL workbench 8.0
 * 고려사항 - multi value 
+
+## Server 
+**Engine server**
+* Protocol - JSON 
+* multi thred
+* Socket
+* Port : tcp 5050</br></br>
+**API server**
+* Rest API
+* Flask
+* Port : 5000
+
+## 연동
+* KAKAO Chaneel 생성
+* Groom IDE
 
