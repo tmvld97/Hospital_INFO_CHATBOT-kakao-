@@ -54,7 +54,7 @@
 **Output** | pool1 | pool2 | pool3 | 128(node) |
 
 **Input**: seq_length(max_len = 11) Dense : sum(pooling)</br>
-**Classification** :   
+**<span style="color:red">Classification** :   
 **0 : 인사**</br>
 **1 : 병원 정보 제공**</br>
 **2 : 병원 리스트 제공**</br>
