@@ -16,12 +16,6 @@
   
   
   ![ezgif com-gif-maker](https://user-images.githubusercontent.com/55508788/150677800-b21a3d9e-7a1d-4cf4-bc84-3b79ba42188c.gif)
-
-## 시연
-![jpg_5](./readme/시연1.png)</br>
-![jpg_6](./readme/시연2.png)</br>
-![jpg_7](./readme/시연3.png)</br>
-![jpg_8](./readme/시연4.png)
   
 # 개발 환경
   * 서버 구동환경 - Groom IDE
@@ -108,6 +102,11 @@
 > 공공데이터포털 - 공공데이터활용지원센터_보건복지부 코로나19 감염 현황</br>
 > 경기데이터드림 - 경기도권 병원 현황[병원급]
 
+## 시연
+![jpg_5](./readme/시연1.png)</br>
+![jpg_6](./readme/시연2.png)</br>
+![jpg_7](./readme/시연3.png)</br>
+![jpg_8](./readme/시연4.png)
 
 ### 참고자료
 > Chatbot 시장동향 - “Marketsandmarkets, Chatbot Market, 2019”, https://www.marketsandmarkets.com/Market-Reports/smart-advisor-market-72302363.html </br>
