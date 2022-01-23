@@ -21,8 +21,8 @@
     - windows 10
   * IDE
     - PyCharm 2021, Groom IDE
-    - Language & Flask 2.0.1
-    - Tensorflow - gpu2.3.0 & Keras
+  * Language & Framework
+    - Python 3.8.3, Flask 2.0.1 
   * Data Base
     - AWS (RDS)
     - My SQL
