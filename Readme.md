@@ -7,7 +7,10 @@
   연동했습니다.
 * Open API를 활용하여 경기도권의 지역별 병원정보 및 조건에 해당되는 병원정보를 제공하며
   도시별 위험 질병 경고도, 코로나 현황등의 정보를 제공합니다.
+  
+  ![ezgif com-gif-maker](https://user-images.githubusercontent.com/55508788/150677800-b21a3d9e-7a1d-4cf4-bc84-3b79ba42188c.gif)
 
+  
 # 개발 환경
   * 서버 구동환경 - Groom IDE
   * OS
