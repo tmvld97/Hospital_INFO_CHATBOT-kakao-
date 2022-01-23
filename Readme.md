@@ -44,7 +44,7 @@
 :---: | :---: | :---: | :---: | :---: |
 **Filters** | 128 | 128 | 128 | - |
 **Kernel_size** | 3*3 | 4*4 | 5*5 | - |
-**Output** | pool1 | pool2 | pool3 | 128(node) |
+**Output** | pool1 | pool2 | pool3 | 128(node) ||
 **Input**: seq_length(max_len = 11) Dense : sum(pooling)</br>
 **Classification** :   
 0 : 인사</br>
@@ -60,7 +60,7 @@
 | | Embedding | Bidirectional Lstm | Dense |
 :---: | :---: | :---: | :---: | 
 **Node** | input : 1831</br>size : 30 | 200 | 6</br>(tag_size) | - |
-**Activation** | - | - | softmax | - |
+**Activation** | - | - | softmax | - ||
 **Input** : seg_length(avg_len = 9)
 
 ## Database
