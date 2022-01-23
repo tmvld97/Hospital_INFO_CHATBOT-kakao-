@@ -8,8 +8,20 @@
 * Open API를 활용하여 경기도권의 지역별 병원정보 및 조건에 해당되는 병원정보를 제공하며
   도시별 위험 질병 경고도, 코로나 현황등의 정보를 제공합니다.
   
+* 기능 
+  1. [경기도권] 시,동 병원급 병원 정보제공
+  2. 조건에 해당되는 병원 리스트 제공
+  3. 도시별 대표질병 예측 경고도 제공
+  4. 코로나 현황제공
+  
+  
   ![ezgif com-gif-maker](https://user-images.githubusercontent.com/55508788/150677800-b21a3d9e-7a1d-4cf4-bc84-3b79ba42188c.gif)
 
+## 시연
+![jpg_5](./readme/시연1.png)</br>
+![jpg_6](./readme/시연2.png)</br>
+![jpg_7](./readme/시연3.png)</br>
+![jpg_8](./readme/시연4.png)
   
 # 개발 환경
   * 서버 구동환경 - Groom IDE
@@ -96,11 +108,6 @@
 > 공공데이터포털 - 공공데이터활용지원센터_보건복지부 코로나19 감염 현황</br>
 > 경기데이터드림 - 경기도권 병원 현황[병원급]
 
-## 시연
-![jpg_5](./readme/시연1.png)</br>
-![jpg_6](./readme/시연2.png)</br>
-![jpg_7](./readme/시연3.png)</br>
-![jpg_8](./readme/시연4.png)
 
 ### 참고자료
 > Chatbot 시장동향 - “Marketsandmarkets, Chatbot Market, 2019”, https://www.marketsandmarkets.com/Market-Reports/smart-advisor-market-72302363.html </br>
