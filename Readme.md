@@ -93,7 +93,14 @@
 > 공공데이터포털 - 공공데이터활용지원센터_보건복지부 코로나19 감염 현황</br>
 > 경기데이터드림 - 경기도권 병원 현황[병원급]
 
-#### 참고자료
+## 시연
+![jpg_5](./readme/시연1.png)</br>
+![jpg_6](./readme/시연2.png)</br>
+![jpg_7](./readme/시연3.png)</br>
+![jpg_8](./readme/시연4.png)
+
+### 참고자료
 > Chatbot 시장동향 - “Marketsandmarkets, Chatbot Market, 2019”, https://www.marketsandmarkets.com/Market-Reports/smart-advisor-market-72302363.html </br>
-> 
-> 
+> CNN관련 논문 - "CNN for Sentence Classification", http://emnlp2014.org/papers/pdf/EMNLP2014181.pdf </br>
+> Keras 기술문서 - "KERAS", https://keras.io/ </br>
+> Rest API - "히진쓰의 서버사이드 기술 블로그", https://khj93.tistory.com/entry/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-REST-API%EB%9E%80-REST-RESTful%EC%9D%B4%EB%9E%80
