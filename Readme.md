@@ -35,10 +35,10 @@
 * 각 모델의 output으로 이루어진 키워드를 조건으로 답변DB에서 알맞은
   답변을 찾아 출력합니다.
 
-## 의도분류 모델(CNN)
+## [의도분류 모델(CNN)](https://github.com/tmvld97/graduate-modeling/blob/master/models/intent/IntentModel.py)
 ![jpg_3](./readme/CNN구조.png)
 * tensorflow - gpu2.3.0 & Keras
-* **accuracy** - Train : 99%, Validation : 99%, Test : 99%</br>
+* [**accuracy** - Train : 99%, Validation : 99%, Test : 99%</br>](https://github.com/tmvld97/graduate-modeling/blob/master/models/intent/train_model.py)
 
 | | Conv1 | Conv2 | Conv3 | Dense | 
 :---: | :---: | :---: | :---: | :---: |
@@ -53,10 +53,10 @@
 2 : 병원 리스트 제공</br>
 3 : 코로나 현황 정보 제공 </br>
 
-## 개체인식 모델(양방향 LSTM)
+## [개체인식 모델(양방향 LSTM)](https://github.com/tmvld97/graduate-modeling/blob/master/models/ner/NerModel.py)
 ![jpg_4](./readme/LSTM구조.png)
 * tensorflow - gpu2.3.0 & Keras
-* **accuracy** - F1 Score(test data) : 99%
+* [**accuracy** - F1 Score(test data) : 99%](https://github.com/tmvld97/graduate-modeling/blob/master/models/ner/train_model.py)
 
 | | Embedding | Bidirectional Lstm | Dense |
 :---: | :---: | :---: | :---: | 
@@ -65,22 +65,24 @@
 
 **Input** : seg_length(avg_len = 9)
 
-## Database
+## [Database](https://github.com/tmvld97/graduate-modeling/blob/master/utils/Database.py)
 ![jpg_5](./readme/ERD.png)
 * Amazon(RDS) - MySQL
 * MySQL workbench 8.0
-* 고려사항 - multi value 
+* 고려사항 - multi value
+* [학습모델들의 output keyword를 바탕으로 알맞은 답변 SELECT](https://github.com/tmvld97/graduate-modeling/blob/master/utils/FindAnswer.py)
 
-## Server 
-**Engine server**
-* Protocol - JSON 
-* multi thred
-* Socket
-* Port : tcp 5050</br></br>
-**API server**
-* Rest API
-* Flask
-* Port : 5000
+
+## Server
+1. [Engine server](https://github.com/tmvld97/graduate-modeling/blob/master/bot.py)
+    * Protocol - JSON</br>
+    * multi thred
+    * Socket
+    * Port tcp 5050
+2. [API server](https://github.com/tmvld97/graduate-modeling/blob/master/chatbot_api/app.py)
+    * Rest API
+    * Flask
+    * Port : 5000
 
 ## 연동
 * KAKAO Chaneel 생성
