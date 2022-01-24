@@ -99,7 +99,8 @@
     * Rest API
     * Flask
     * Port : 5000
-
+    * Groom IDE
+  
 ## 연동
 * KAKAO Chaneel 생성
 * Groom IDE
