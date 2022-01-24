@@ -104,10 +104,10 @@
 ## 연동
 * KAKAO Chaneel 생성
 * Groom IDE
+* Kakao - fallback block 기능 사용
 ![jpg_6](./readme/portforwarding.png)
-* Groom IDE - port fowarding기능 사용 
-![jpg_7](./readme/kakao.png)
-* Kakao URL mapping
+* Groom IDE - port fowarding -> kakao url mapping 
+
 
 ## [Open API](https://github.com/tmvld97/graduate-modeling/blob/master/config/GlobalParams.py)
 > 공공데이터포털 - 국민건강보험공단 질병예측 정보</br>
