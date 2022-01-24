@@ -104,6 +104,10 @@
 ## 연동
 * KAKAO Chaneel 생성
 * Groom IDE
+![Uploading 제목 없음.png…]()
+* Groom IDE - port fowarding기능 사용 
+![kakao](https://user-images.githubusercontent.com/55508788/150789613-da1bf400-7ad8-4f38-a9d1-4d702e3d3a1b.png)
+* Kakao URL mapping
 
 ## [Open API](https://github.com/tmvld97/graduate-modeling/blob/master/config/GlobalParams.py)
 > 공공데이터포털 - 국민건강보험공단 질병예측 정보</br>
