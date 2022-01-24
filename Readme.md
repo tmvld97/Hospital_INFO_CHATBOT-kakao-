@@ -104,9 +104,9 @@
 ## 연동
 * KAKAO Chaneel 생성
 * Groom IDE
-![Uploading 제목 없음.png…]()
+![jpg_6](./readme/portforwarding.png)
 * Groom IDE - port fowarding기능 사용 
-![kakao](https://user-images.githubusercontent.com/55508788/150789613-da1bf400-7ad8-4f38-a9d1-4d702e3d3a1b.png)
+![jpg_7](./readme/kakao.png)
 * Kakao URL mapping
 
 ## [Open API](https://github.com/tmvld97/graduate-modeling/blob/master/config/GlobalParams.py)
